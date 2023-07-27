@@ -1,0 +1,4 @@
+spotipy
+Flask
+Flask-Session
+python-dotenv
