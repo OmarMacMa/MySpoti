@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<title> | Home</title>
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-lg-offset-2 text-center">
+                            <h2 data-aos="fade-right" data-aos-duration="1000">Hi, {{ user.display_name }}</h2>
+                            <br>
+                            <h4 data-aos="fade-right" data-aos-duration="1000">Welcome to MySpoti, your Spotify wrapped whenever you want it.</h4>
+                            <p>Take a look at your tops</p>
+                            <a href="{{ url_for('top_tracks') }}" class="btn btn-primary">Top Tracks</a>
+                            <a href="{{ url_for('top_artists') }}" class="btn btn-primary">Top Artists</a>
+                            <a href="{{ url_for('recently_played') }}" class="btn btn-primary">Recently Played</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+{% endblock %}

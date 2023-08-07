@@ -1,5 +1,5 @@
 <div class="wrapper">
-    <nav id="sidebar">
+    <nav id="sidebar" class="px-4">
         <a href="/">
             <h2 class="pt-4 text-center" 
             style="color: #FEF9DA;">
@@ -7,7 +7,7 @@
             </h2>
         </a>
         <ul class="list-unstyled">
-            <li><a href="#">Home</a></li>
+            <li><a href="{{ url_for("home") }}">Home</a></li>
             <li>
             <li class="dropdown"><a class="dropdown-toggle" data-bs-toggle="collapse" aria-expanded="false" href="#sidebar-menu">Reports</a></li>
             <ul id="sidebar-menu" class="collapse list-unstyled px-4">
@@ -19,8 +19,7 @@
             </li>
         </ul>
         <ul class="list-unstyled CTAs">
-            <li><a class="btn btn-primary" href="#sign-in">Sign in</a></li>
-            <li><a class="btn btn-secondary" href="#sign-up">Sign up</a></li>
+            <li><a class="btn btn-secondary" href="{{ url_for("home") }}">Sign in</a></li>
         </ul>
     </nav>
     <div id="content">
