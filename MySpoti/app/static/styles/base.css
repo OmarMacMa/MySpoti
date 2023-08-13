@@ -1,20 +1,24 @@
 body {
-	background: #201215;
 	font-family: Ubuntu;
-	color: #F4D6D9;
 	--bs-primary: #EF476F;
 	--bs-primary-rgb: 239, 71, 111;
 	--bs-secondary: #7FDBCA;
-	--bs-secondary-rgb: 127, 219, 202;
-	--bs-dark: #201215;
-	--bs-dark-rgb: 32, 18, 21;
-	--bs-color: #F4D6D9;
-	--bs-color-rgb: 244, 214, 217;
+	--bs-secondary-rgb: 127, 219, 202; 
+	--bs-dark: #1A0A0F;
+	--bs-dark-rgb: 26, 10, 15;
+	--bs-color: #F9E1BA;
+	--bs-color-rgb: 249, 225, 186;
 	--bs-font-size: 1.25rem;
+	--bs-link-color: var(--bs-secondary);
+	--bs-link-color-rgb: var(--bs-secondary-rgb);
+	--bs-link-hover-color: #0193AB;
+	--bs-link-hover-color-rgb: 1, 147, 171;
+	background: var(--bs-dark); /*#201215;*/
+	color: var(--bs-color); /*#F4D6D9;*/
 }
 
-a, a:hover, a:focus {
-	color: inherit;
+#sidebar > a, li > a {
+	color: var(--bs-color);
 	text-decoration: none;
 	transition: all 0.3s;
 }
@@ -50,11 +54,6 @@ a, a:hover, a:focus {
 	perspective: 1500px;
 }
 
-#button-logo {
-	border-style: none;
-	background-color: transparent;
-}
-
 #content {
 	width: 100%;
 	padding: 20px;
@@ -81,8 +80,7 @@ a, a:hover, a:focus {
 #sidebar {
 	min-width: 250px;
 	max-width: 250px;
-	/* background: #331B22; */
-	color: #F4D6D9;
+	background: #331B22;
 	transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
 	transform-origin: bottom left;
 }
@@ -102,7 +100,7 @@ a, a:hover, a:focus {
 	width: 40px;
 	height: 40px;
 	cursor: pointer;
-	background-color: #EF476F;
+	background-color: #331B22;
 }
 
 #sidebarCollapse span {
@@ -110,7 +108,7 @@ a, a:hover, a:focus {
 	height: 2px;
 	margin: 0 auto;
 	display: block;
-	background: #F4D6D9;
+	background: var(--bs-secondary);
 	transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
 	transition-delay: 0.2s;
 }
