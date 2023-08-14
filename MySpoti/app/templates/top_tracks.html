@@ -12,7 +12,8 @@
                     <div class="row">
                         <div class="col-lg-12 col-lg-offset-2 text-center">
                             <h1 data-aos="fade-right" data-aos-duration="1000">Your top tracks</h1>
-                            <hr class="small">
+                        </div>
+                    </div>
                             <!--<div class="table-responsive">
                                 <table class="table" style="font-size: 1.2rem;">
                                     <thead>
@@ -37,33 +38,31 @@
                             </div>-->
 
                         
-                            <hr>
-                            <div class="row px-4">
-                                {% for index, track in top_tracks.items() %}
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 py-2 flip_container" data-aos="fade-up" data-aos-duration="1000">
-                                        <div class="flip py-5">
-                                            <div class="flip_front" style="height: 100%;">
-                                                <div class="card rounded-4">
-                                                    <div class="card-body">
-                                                        <img src="{{ track.album_cover }}" alt="album cover" class="img-fluid">
-                                                        <h3>{{ track.name }}</h3>
-                                                        <h4>by {{ track.artists }}</h4>
-                                                        <h4>from {{ track.album }}</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="flip_back">
-                                                <div class="card rounded-4">
-                                                    <div class="card-body">
-                                                        <h4>Hello from the back</h4>
-                                                    </div>
-                                                </div>
+                    <hr>
+                    <div class="row px-4">
+                        {% for index, track in top_tracks.items() %}
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12 py-2 flip_container" data-aos="fade-up" data-aos-duration="1000">
+                                <div class="flip py-5" id="flip-{{ index }}">
+                                    <div class="flip_front" id="flip-front-{{ index }}">
+                                        <div class="card rounded-4" id="front-card-{{ index }}">
+                                            <div class="card-body text-center">
+                                                <img src="{{ track.album_cover }}" alt="album cover" class="img-fluid">
+                                                <h3>{{ track.name }}</h3>
+                                                <h4>by {{ track.artists }}</h4>
+                                                <h4>from {{ track.album }}</h4>
                                             </div>
                                         </div>
                                     </div>
-                                {% endfor %}
+                                    <div class="flip_back" id="flip-back-{{ index }}">
+                                        <div class="card rounded-4" id="back-card-{{ index }}">
+                                            <div class="card-body">
+                                                <h4>Hello from the back</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -71,4 +70,11 @@
 {% endblock %}
 {% block scripts %}
     {{ super() }}
+    <script>
+        for (let i = 0; i < {{ top_tracks|length }}; i++) {
+            $("#flip-front-"+i).css("height", $("#front-card-"+i).height()+"px");
+            $("#flip-back-"+i).css("height", $("#front-card-"+i).height()+"px");
+            $("#flip-"+i).css("height", $("#front-card-"+i).height()+"px");
+        }
+    </script>
 {% endblock %}

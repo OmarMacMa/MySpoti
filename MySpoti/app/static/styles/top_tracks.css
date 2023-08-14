@@ -1,6 +1,9 @@
 .flip_container {
     cursor: pointer;
     perspective: 1000px;
+    /* height: auto;
+    display: flex;
+    flex-direction: column; */
 }
 
 .flip_container:hover .flip {
@@ -10,7 +13,7 @@
 .flip {
     transition: 0.75s;
     transform-style: preserve-3d;
-    height: 300px; /* Set a fixed height for the flip container */
+    /* height: auto; */
 }
 
 .flip_front,
@@ -19,8 +22,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    /* height: auto; */
     display: flex;
     flex-direction: column;
     justify-content: center;
