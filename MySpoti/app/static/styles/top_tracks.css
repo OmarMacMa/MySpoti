@@ -37,3 +37,9 @@
 .flip_back {
     transform: rotateY(180deg);
 }
+
+.card {
+    background-color: #29161b;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    color: var(--bs-color);
+}

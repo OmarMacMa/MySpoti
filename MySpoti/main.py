@@ -97,7 +97,7 @@ def top_tracks():
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         return redirect("/home")
     spotify = spotipy.Spotify(auth_manager=auth_manager)
-    top_tracks_list = spotify.current_user_top_tracks(limit=50, time_range="short_term")
+    top_tracks_list = spotify.current_user_top_tracks(limit=50, time_range="long_term")
     top_tracks = {}
     for i in range(len(top_tracks_list["items"])):
         artists = ", ".join([artist["name"] for artist in top_tracks_list["items"][i]["artists"]])
