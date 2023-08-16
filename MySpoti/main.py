@@ -12,6 +12,29 @@ from .app import create_app
 app = create_app()
 
 
+def validate_time_range(time_range):
+    """
+    Validate time range and return the amount of time
+    """
+    time_ranges_map = {
+    "long_term": "several years",
+    "medium_term": "last 6 months",
+    "short_term": "last 4 weeks"
+    }
+    if time_range != "short_term" and time_range != "medium_term" and time_range != "long_term":
+        time_range = "short_term"
+    return time_range, time_ranges_map[time_range]
+
+
+def validate_limit(limit):
+    """
+    Validate limit
+    """
+    if limit != 12 and limit != 24 and limit != 50:
+        return 12
+    return limit
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
@@ -96,21 +119,24 @@ def top_tracks():
     )
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         return redirect("/home")
+    time_range, time = validate_time_range(request.args.get("time_range", "short_term"))
+    limit = validate_limit(int(request.args.get("limit", 12)))
     spotify = spotipy.Spotify(auth_manager=auth_manager)
-    top_tracks_list = spotify.current_user_top_tracks(limit=50, time_range="long_term")
+    top_tracks_list = spotify.current_user_top_tracks(limit=limit, time_range=time_range)
     top_tracks = {}
-    for i in range(len(top_tracks_list["items"])):
-        artists = ", ".join([artist["name"] for artist in top_tracks_list["items"][i]["artists"]])
-        name = top_tracks_list["items"][i]["name"]
+    for i, item in enumerate(top_tracks_list["items"]):
         top_tracks[i] = {
-            "name": name,
-            "artists": artists,
-            "album": top_tracks_list["items"][i]["album"]["name"],
-            "album_cover": top_tracks_list["items"][i]["album"]["images"][0]["url"],
-            "url": top_tracks_list["items"][i]["external_urls"]["spotify"]
+            "name": item["name"],
+            "artists": ", ".join([artist["name"] for artist in item["artists"]]),
+            "album": item["album"]["name"],
+            "album_cover": item["album"]["images"][0]["url"],
+            # "url": item["external_urls"]["spotify"]
         }
     context = {
-        "top_tracks": top_tracks
+        "top_tracks": top_tracks,
+        "time_range": time_range,
+        "limit": limit,
+        "time": time
     }
     return render_template("top_tracks.html", **context)
 

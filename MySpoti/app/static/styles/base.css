@@ -6,7 +6,7 @@ body {
 	--bs-secondary-rgb: 127, 219, 202; 
 	--bs-dark: #1A0A0F;
 	--bs-dark-rgb: 26, 10, 15;
-	--bs-color: #F4D6D9;
+	--bs-color: #FAE6F7;
 	--bs-color-rgb: 244, 214, 217;
 	--bs-font-size: 1.25rem;
 	--bs-link-color: var(--bs-secondary);
@@ -26,13 +26,13 @@ body {
 .btn-primary {
 	background-color: var(--bs-primary);
 	border-color: var(--bs-primary);
-	color: var(--bs-color);
+	color: var(--bs-dark);
 }
 
 .btn-primary:hover {
 	background-color: #C93C5D;
 	border-color: #C93C5D;
-	color: var(--bs-color);
+	color: var(--bs-dark);
 }
 
 .btn-secondary {
@@ -80,7 +80,7 @@ body {
 #sidebar {
 	min-width: 250px;
 	max-width: 250px;
-	background: #331B22;
+	background: #241318; /* #331B22; */
 	transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
 	transform-origin: bottom left;
 }
@@ -100,7 +100,7 @@ body {
 	width: 40px;
 	height: 40px;
 	cursor: pointer;
-	background-color: #331B22;
+	background-color: #241318; /* #331B22; */
 }
 
 #sidebarCollapse span {
@@ -132,7 +132,7 @@ body {
 }
 
 /* Media query for screens with a maximum width of 768px */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) { */
 	#sidebar {
 		margin-left: -250px;
 		transform: rotateY(90deg);
@@ -143,7 +143,7 @@ body {
 		transform: none;
 	}
 
-	#sidebarCollapse span:first-of-type,
+	/* #sidebarCollapse span:first-of-type,
 	#sidebarCollapse span:nth-of-type(2),
 	#sidebarCollapse span:last-of-type {
 		transform: none;
@@ -153,9 +153,9 @@ body {
 
 	#sidebarCollapse.active span {
 		margin: 0 auto;
-	}
+	} */
 
-	#sidebarCollapse.active span:first-of-type {
+	/* #sidebarCollapse.active span:first-of-type {
 		transform: rotate(45deg) translate(2px, 2px);
 	}
 
@@ -165,5 +165,5 @@ body {
 
 	#sidebarCollapse.active span:last-of-type {
 		transform: rotate(-45deg) translate(1px, -1px);
-	}
-}
+	} */
+/* } */
