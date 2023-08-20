@@ -6,19 +6,24 @@ body {
 	--bs-secondary-rgb: 127, 219, 202; 
 	--bs-dark: #1A0A0F;
 	--bs-dark-rgb: 26, 10, 15;
+	--bs-light: #DFE1E3;
+	--bs-light-rgb: 223, 225, 227;
 	--bs-color: #FAE6F7;
 	--bs-color-rgb: 244, 214, 217;
 	--bs-font-size: 1.25rem;
-	--bs-link-color: var(--bs-secondary);
-	--bs-link-color-rgb: var(--bs-secondary-rgb);
+	--bs-link-color: #1DB954;
+	--bs-link-color-rgb: 29, 185, 84;
 	--bs-link-hover-color: #0193AB;
 	--bs-link-hover-color-rgb: 1, 147, 171;
-	background: var(--bs-dark); /*#201215;*/
-	color: var(--bs-color); /*#F4D6D9;*/
+	/* background: var(--bs-dark); #201215; */
+	/* color: var(--bs-color); #F4D6D9; */
+	background: var(--bs-light);
+	color: var(--bs-dark);
 }
 
 #sidebar > a, li > a {
-	color: var(--bs-color);
+	/* color: var(--bs-color); */
+	color: var(--bs-dark);
 	text-decoration: none;
 	transition: all 0.3s;
 }
@@ -80,7 +85,7 @@ body {
 #sidebar {
 	min-width: 250px;
 	max-width: 250px;
-	background: #241318; /* #331B22; */
+	background: #DCD8DC; /*#241318; */
 	transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);
 	transform-origin: bottom left;
 }
@@ -100,7 +105,8 @@ body {
 	width: 40px;
 	height: 40px;
 	cursor: pointer;
-	background-color: #241318; /* #331B22; */
+	background-color: var(--bs-primary); /* #241318; */
+	border-radius: 10%;
 }
 
 #sidebarCollapse span {
@@ -108,7 +114,7 @@ body {
 	height: 2px;
 	margin: 0 auto;
 	display: block;
-	background: var(--bs-secondary);
+	background: var(--bs-dark);
 	transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
 	transition-delay: 0.2s;
 }

@@ -39,18 +39,25 @@
 }
 
 .card {
-    background-color: #241318;
+    background-color: #dcd8dc; /*#241318;*/
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    color: var(--bs-color);
+    /* color: var(--bs-color); */
+    color: var(--bs-dark);
 }
 
 .table   {
-    --bs-table-bg: #241318;
-    --bs-table-color: var(--bs-color);
-    --bs-table-hover-bg: #1A0A0F;
-    --bs-table-hover-color: var(--bs-color);
+    --bs-table-bg: /*#241318;*/ #DCD8DC;
+    /* --bs-table-color: var(--bs-color); */
+    --bs-table-color: var(--bs-dark);
+    --bs-table-hover-bg: /*#241318 */ #DCD8DC;
+    /* --bs-table-hover-color: var(--bs-color); */
+    --bs-table-hover-color: var(--bs-dark);
+}
+
+h1 {
+    color: #1DB954;
 }
 
 h2 {
-    color: #D5A7AF;
+    color: var(--bs-primary);
 }
