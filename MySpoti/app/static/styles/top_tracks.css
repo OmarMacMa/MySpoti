@@ -43,3 +43,14 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     color: var(--bs-color);
 }
+
+.table   {
+    --bs-table-bg: #241318;
+    --bs-table-color: var(--bs-color);
+    --bs-table-hover-bg: #1A0A0F;
+    --bs-table-hover-color: var(--bs-color);
+}
+
+h2 {
+    color: #D5A7AF;
+}

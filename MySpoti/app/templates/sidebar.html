@@ -18,8 +18,11 @@
             </li>
         </ul>
         <ul class="list-unstyled">
-            <li class="py-2"><a class="btn btn-secondary" href="{{ url_for("home") }}">Sign in</a></li>
-            <li class="py-2"><a class="btn btn-primary" href="{{ url_for("sign_out") }}">Sign out</a></li>
+            {% if signed_in %}
+                <li class="py-2"><a class="btn btn-primary" href="{{ url_for("sign_out") }}">Sign out</a></li>
+            {% else %}
+                <li class="py-2"><a class="btn btn-secondary" href="{{ url_for("home") }}">Sign in</a></li>
+            {% endif %}
         </ul>
     </nav>
     <div id="content">

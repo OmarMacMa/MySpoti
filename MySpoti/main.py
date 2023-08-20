@@ -30,7 +30,7 @@ def validate_limit(limit):
     """
     Validate limit
     """
-    if limit != 12 and limit != 24 and limit != 50:
+    if limit != 12 and limit != 24 and limit != 50 and limit != 48:
         return 12
     return limit
 
@@ -47,7 +47,24 @@ def internal_error(e):
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    """
+    Home page
+    """
+    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
+    auth_manager = spotipy.oauth2.SpotifyOAuth(
+        client_id=os.environ.get("Client_ID"),
+        client_secret=os.environ.get("Client_Secret"),
+        redirect_uri=os.environ.get("Redirect_URI"),
+        cache_handler=cache_handler
+    )
+    if not auth_manager.validate_token(cache_handler.get_cached_token()):
+        signed_in = False
+    else:
+        signed_in = True
+    context = {
+        "signed_in": signed_in
+    }
+    return render_template("index.html", **context)
 
 
 @app.route("/home")
@@ -69,16 +86,13 @@ def home():
         return redirect("/home")
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         auth_url = auth_manager.get_authorize_url()
-        return f"<h2><a href='{auth_url}'>Sign in</a></h2>"
+        return redirect(auth_url)
+    else:
+        signed_in = True
     spotify = spotipy.Spotify(auth_manager=auth_manager)
-    # return f'<h2>Hi {spotify.me()["display_name"]}, ' \
-    #        f'<small><a href="/sign_out">[sign out]<a/></small></h2>' \
-    #        f'<a href="/top_tracks">top tracks</a> | ' \
-    #        f'<a href="/currently_playing">currently playing</a> | ' \
-    #        f'<a href="/top_artists">top artists</a> | ' \
-    #        f'<a href="/recently_played">recently played</a>'
     context = {
         "user": spotify.me(),
+        "signed_in": signed_in
     }
     return render_template("home.html", **context)
 
@@ -94,15 +108,16 @@ def currently_playing():
     )
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         return redirect("/home")
+    else:
+        signed_in = True
     spotify = spotipy.Spotify(auth_manager=auth_manager)
     track = spotify.current_user_playing_track()
     if track:
-        # return track
         artists = ", ".join([artist["name"] for artist in track["item"]["artists"]])
         return f'<h2>Currently playing: <a href="{track["item"]["external_urls"]["spotify"]}">{track["item"]["name"]}</a></h2>' \
                f'<h3>by {artists}</h3>' \
                f'<h3>from <a href="{track["item"]["album"]["external_urls"]["spotify"]}">{track["item"]["album"]["name"]}</a></h3>' \
-               f'<img src="{track["item"]["album"]["images"][0]["url"]}" alt="album cover" width="300" height="300">'
+               f'<img src="{track["item"]["album"]["images"][1]["url"]}" alt="album cover" width="300" height="300">'
     
     else:
         return "Nothing currently playing"
@@ -119,6 +134,8 @@ def top_tracks():
     )
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         return redirect("/home")
+    else:
+        signed_in = True
     time_range, time = validate_time_range(request.args.get("time_range", "short_term"))
     limit = validate_limit(int(request.args.get("limit", 12)))
     spotify = spotipy.Spotify(auth_manager=auth_manager)
@@ -129,32 +146,17 @@ def top_tracks():
             "name": item["name"],
             "artists": ", ".join([artist["name"] for artist in item["artists"]]),
             "album": item["album"]["name"],
-            "album_cover": item["album"]["images"][0]["url"],
-            # "url": item["external_urls"]["spotify"]
+            "album_cover": item["album"]["images"][1]["url"],
+            "url": item["external_urls"]["spotify"]
         }
     context = {
         "top_tracks": top_tracks,
         "time_range": time_range,
         "limit": limit,
-        "time": time
+        "time": time,
+        "signed_in": signed_in
     }
     return render_template("top_tracks.html", **context)
-
-
-@app.route("/raw_top_tracks")
-def raw_top_tracks():
-    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-    auth_manager = spotipy.oauth2.SpotifyOAuth(
-        client_id=os.environ.get("Client_ID"),
-        client_secret=os.environ.get("Client_Secret"),
-        redirect_uri=os.environ.get("Redirect_URI"),
-        cache_handler=cache_handler
-    )
-    if not auth_manager.validate_token(cache_handler.get_cached_token()):
-        return redirect("/home")
-    spotify = spotipy.Spotify(auth_manager=auth_manager)
-    top_tracks_list = spotify.current_user_top_tracks(limit=50, time_range="short_term")
-    return top_tracks_list
 
 
 @app.route("/top_artists")
@@ -168,15 +170,28 @@ def top_artists():
     )
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         return redirect("/home")
+    else:
+        signed_in = True
+    time_range, time = validate_time_range(request.args.get("time_range", "short_term"))
+    limit = validate_limit(int(request.args.get("limit", 12)))
     spotify = spotipy.Spotify(auth_manager=auth_manager)
-    top_artists_list = spotify.current_user_top_artists(limit=25, time_range="short_term")
-    # return top_artists_list
-    artists = ""
-    for i in range(len(top_artists_list["items"])):
-        artists += f'<h2><a href="{top_artists_list["items"][i]["external_urls"]["spotify"]}">{top_artists_list["items"][i]["name"]}</a></h2>'
-        artists += f'<h3>from {top_artists_list["items"][i]["genres"]}</h3>'
-        artists += f'<img src="{top_artists_list["items"][i]["images"][0]["url"]}" alt="artist image" width="300" height="300">'
-    return artists
+    top_artists_list = spotify.current_user_top_artists(limit=limit, time_range=time_range)
+    top_artists = {}
+    for i, item in enumerate(top_artists_list["items"]):
+        top_artists[i] = {
+            "name": item["name"],
+            "genres": ", ".join(item["genres"]),
+            "image": item["images"][1]["url"],
+            "url": item["external_urls"]["spotify"]
+        }
+    context = {
+        "top_artists": top_artists,
+        "time_range": time_range,
+        "limit": limit,
+        "time": time,
+        "signed_in": signed_in
+    }
+    return render_template("top_artists.html", **context)
 
 
 @app.route("/recently_played")
@@ -190,6 +205,8 @@ def recently_played():
     )
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         return redirect("/home")
+    else:
+        signed_in = True
     spotify = spotipy.Spotify(auth_manager=auth_manager)
     recently_played_list = spotify.current_user_recently_played(limit=50)
     # return recently_played_list

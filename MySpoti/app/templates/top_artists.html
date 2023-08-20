@@ -2,7 +2,7 @@
 
 {% block head %}
 {{ super() }}
-| Top Tracks</title>
+| Top Artists</title>
 <link rel="stylesheet" href="{{ url_for("static", filename="styles/top_tracks.css") }}">
 {% endblock %}
 
@@ -11,7 +11,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 col-lg-offset-2 text-center">
-                            <h1 data-aos="fade-up" data-aos-duration="1000">Your Top {{ limit }} Tracks</h1>
+                            <h1 data-aos="fade-up" data-aos-duration="1000">Your Top {{ limit }} Artists</h1>
                             <h3 data-aos="fade-up" data-aos-duration="1500">Based on your listening history of {{ time }}</h3>
                         </div>
                     </div>
@@ -19,26 +19,26 @@
                     <div class="row px-5">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-12 py-3" data-aos="flip-left" data-aos-duration="1500">
                             {% if time_range == 'long_term' %}
-                                <a href="{{ url_for('top_tracks', time_range='short_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-hourglass-half fa-xl"></i> </a>
-                                <a href="{{ url_for('top_tracks', time_range='medium_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-calendar-days fa-xl"></i> </a>
+                                <a href="{{ url_for('top_artists', time_range='short_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-hourglass-half fa-xl"></i> </a>
+                                <a href="{{ url_for('top_artists', time_range='medium_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-calendar-days fa-xl"></i> </a>
                             {% elif time_range == 'medium_term' %}
-                                <a href="{{ url_for('top_tracks', time_range='short_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-hourglass-half fa-xl"></i> </a>
-                                <a href="{{ url_for('top_tracks', time_range='long_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-infinity fa-xl"></i> </a>
+                                <a href="{{ url_for('top_artists', time_range='short_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-hourglass-half fa-xl"></i> </a>
+                                <a href="{{ url_for('top_artists', time_range='long_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-infinity fa-xl"></i> </a>
                             {% else %}
-                                <a href="{{ url_for('top_tracks', time_range='medium_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-calendar-days fa-xl"></i> </a>
-                                <a href="{{ url_for('top_tracks', time_range='long_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-infinity fa-xl"></i> </a>
+                                <a href="{{ url_for('top_artists', time_range='medium_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-calendar-days fa-xl"></i> </a>
+                                <a href="{{ url_for('top_artists', time_range='long_term', limit=limit) }}" class="btn btn-secondary mx-1"><i class="fas fa-infinity fa-xl"></i> </a>
                             {% endif %}
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-12 text-center py-3" data-aos="flip-up" data-aos-duration="1500">
                             {% if limit == 50 %}
-                                <a href="{{ url_for('top_tracks', time_range=time_range, limit=12) }}" class="btn btn-primary mx-1"><strong>12</strong></a>
-                                <a href="{{ url_for('top_tracks', time_range=time_range, limit=24) }}" class="btn btn-primary mx-1"><strong>24</strong></a>
+                                <a href="{{ url_for('top_artists', time_range=time_range, limit=12) }}" class="btn btn-primary mx-1"><strong>12</strong></a>
+                                <a href="{{ url_for('top_artists', time_range=time_range, limit=24) }}" class="btn btn-primary mx-1"><strong>24</strong></a>
                             {% elif limit == 24 %}
-                                <a href="{{ url_for('top_tracks', time_range=time_range, limit=12) }}" class="btn btn-primary mx-1"><strong>12</strong></a>
-                                <a href="{{ url_for('top_tracks', time_range=time_range, limit=50) }}" class="btn btn-primary mx-1"><strong>50</strong></a>
+                                <a href="{{ url_for('top_artists', time_range=time_range, limit=12) }}" class="btn btn-primary mx-1"><strong>12</strong></a>
+                                <a href="{{ url_for('top_artists', time_range=time_range, limit=48) }}" class="btn btn-primary mx-1"><strong>48</strong></a>
                             {% else %}
-                                <a href="{{ url_for('top_tracks', time_range=time_range, limit=24) }}" class="btn btn-primary mx-1"><strong>24</strong></a>
-                                <a href="{{ url_for('top_tracks', time_range=time_range, limit=50) }}" class="btn btn-primary mx-1"><strong>50</strong></a>
+                                <a href="{{ url_for('top_artists', time_range=time_range, limit=24) }}" class="btn btn-primary mx-1"><strong>24</strong></a>
+                                <a href="{{ url_for('top_artists', time_range=time_range, limit=48) }}" class="btn btn-primary mx-1"><strong>48</strong></a>
                             {% endif %}
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-12 text-end py-3" data-aos="flip-right" data-aos-duration="1500">
@@ -48,14 +48,14 @@
                     </div>
 
                     <div class="row px-4">
-                        {% for index, track in top_tracks.items() %}
+                        {% for index, track in top_artists.items() %}
                             <div class="col-lg-3 col-md-6 col-sm-6 col-12 py-2 flip_container" id="col-{{ index }}" data-aos="fade-up" data-aos-duration="1000">
                                 <div class="flip py-5" id="flip-{{ index }}">
                                     <div class="flip_front" id="flip-front-{{ index }}">
                                         <div class="card rounded-4" id="front-card-{{ index }}">
                                             <div class="card-body text-center">
                                                 <h1>{{ index+1 }}</h1>
-                                                <img src="{{ track.album_cover }}" alt="album cover" class="img-fluid">
+                                                <img src="{{ track.image }}" alt="artist" class="img-fluid">
                                             </div>
                                         </div>
                                     </div>
@@ -64,8 +64,7 @@
                                             <div class="card-body d-flex justify-content-center align-items-center">
                                                 <div class="text-center">
                                                     <h2>{{ track.name }}</h2>
-                                                    <h4>By {{ track.artists }}</h4>
-                                                    <h5>From {{ track.album }}</h5>
+                                                    <h5>On {{track.genres|capitalize }}</h5>
                                                     <h5><a href="{{ track.url }}" target="_blank">Listen on Spotify</a></h5>
                                                 </div>
                                             </div>
@@ -82,21 +81,19 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">Track</th>
-                                            <th scope="col"></th>
                                             <th scope="col">Artist</th>
-                                            <th scope="col">Album</th>
+                                            <th scope="col"></th>
+                                            <th scope="col">Genres</th>
                                             <th scope="col">Listen on Spotify</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for index, track in top_tracks.items() %}
+                                        {% for index, track in top_artists.items() %}
                                             <tr class="align-middle" data-aos="fade-up" data-aos-duration="1000">
                                                 <th scope="row">{{ index+1 }}</th>
-                                                <td><img src="{{ track.album_cover }}" alt="album cover" class="img-fluid" style="max-height: 75px; max-width: 75px;"></td>
+                                                <td><img src="{{ track.image }}" alt="artist" class="img-fluid" style="max-height: 75px; max-width: 75px;"></td>
                                                 <td style="color: #D5A7AF; font-weight: bold;">{{ track.name }}</td>
-                                                <td>{{ track.artists }}</td>
-                                                <td>{{ track.album }}</td>
+                                                <td>{{ track.genres|capitalize }}</td>
                                                 <td><a href="{{ track.url }}" target="_blank">Listen on Spotify</a></td>
                                             </tr>
                                         {% endfor %}
@@ -113,7 +110,7 @@
     {{ super() }}
     <script>
         $(document).ready(function() {
-            for (let i = 0; i < {{ top_tracks|length }}; i++) {
+            for (let i = 0; i < {{ top_artists|length }}; i++) {
                 $("#back-card-"+i).css("height", $("#front-card-"+i).height()+"px");
                 $("#back-card-"+i).css("width", $("#front-card-"+i).width()+"px");
                 $("#flip-front-"+i).css("height", $("#front-card-"+i).height()+"px");
@@ -123,7 +120,7 @@
         });
 
         $(window).resize(function() {
-            for (let i = 0; i < {{ top_tracks|length }}; i++) {
+            for (let i = 0; i < {{ top_artists|length }}; i++) {
                 $("#back-card-"+i).css("height", $("#front-card-"+i).height()+"px");
                 $("#back-card-"+i).css("width", $("#front-card-"+i).width()+"px");
                 $("#flip-front-"+i).css("height", $("#front-card-"+i).height()+"px");
@@ -134,12 +131,12 @@
 
         function showAs(type) {
             if (type == "cards") {
-                for (let i = 0; i < {{ top_tracks|length }}; i++) {
+                for (let i = 0; i < {{ top_artists|length }}; i++) {
                     $("#col-"+i).prop("hidden", false);
                 }
                 $("#table").prop("hidden", true);
             } else {
-                for (let i = 0; i < {{ top_tracks|length }}; i++) {
+                for (let i = 0; i < {{ top_artists|length }}; i++) {
                     $("#col-"+i).prop("hidden", true);
                 }
                 $("#table").prop("hidden", false);

@@ -2,7 +2,7 @@
 
 {% block head %}
 {{ super() }}
-<title> | Index</title>
+| Index</title>
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,12 @@
                     <div class="row">
                         <div class="col-lg-8 col-lg-offset-2">
                             <h1 data-aos="fade-right" data-aos-duration="1000">This is MySpoti</h1>
-                            <p><a href='/home'>Sign in?</a></p>
+                            {% if signed_in %}
+                                <p> Welcome to MySpoti enjoy your Spotify stats</p>
+                            {% else %}
+                                <p> Welcome to MySpoti please sign in to view your Spotify stats</p>
+                                <a href="{{ url_for('home') }}" class="btn btn-secondary">Sign in with Spotify</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
