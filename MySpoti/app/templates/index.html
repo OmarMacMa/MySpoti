@@ -12,9 +12,10 @@
                         <div class="col-lg-8 col-lg-offset-2">
                             <h1 data-aos="fade-right" data-aos-duration="1000">This is MySpoti</h1>
                             {% if signed_in %}
-                                <p> Welcome to MySpoti enjoy your Spotify stats</p>
+                                <h5> Welcome to MySpoti enjoy your Spotify stats</h5>
+                                <a href="{{ url_for('home') }}" class="btn btn-secondary">View your stats</a>
                             {% else %}
-                                <p> Welcome to MySpoti please sign in to view your Spotify stats</p>
+                                <h5> Welcome to MySpoti please sign in to view your Spotify stats</h5>
                                 <a href="{{ url_for('home') }}" class="btn btn-secondary">Sign in with Spotify</a>
                             {% endif %}
                         </div>

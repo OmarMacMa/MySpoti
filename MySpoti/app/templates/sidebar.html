@@ -1,10 +1,7 @@
 <div class="wrapper">
     <nav id="sidebar" class="px-4">
         <a href="/">
-            <h2 class="pt-4 text-center" 
-            style="color: #FEF9DA;">
-                <i class="fas fa-music"></i> MySpoti
-            </h2>
+            <img src="{{ url_for('static', filename='images/MySpoti.png') }}" class="d-inline-block align-top img-fluid py-4" alt="MySpoti">
         </a>
         <ul class="list-unstyled">
             <li><a href="{{ url_for("home") }}">Home</a></li>
@@ -36,7 +33,7 @@
                 
                 <div class="d-flex justify-content-center align-items-center">
                     <a href="/" class="nav-link">
-                        <h2 class="mb-0" style="color: #FEF9DA;"><i class="fas fa-music"></i> MySpoti</h2>
+                        <img src="{{ url_for('static', filename='images/MySpoti.png') }}" class="d-inline-block align-top img-fluid py-4" alt="MySpoti" style="height: 100px;">
                     </a>
                 </div>
             </div>
