@@ -40,12 +40,12 @@ The idea for this project came from the Spotify Wrapped, which is a feature that
 
 There are several features that I would like to add to this project in the future. Some of these features include:
 
-- An improved index and home page
-- Add a footer
-- Improved responsiveness
-- See the popularity of your top tracks and artists in a chart
-- Implement a database to store user data
-- Get Spotify's extension request approved
-- Deploy the application
-- Export your top tracks and artists to a playlist
-- Send your top tracks and artists to your email every month
+- [ ] An improved index and home page
+- [ ] Add a footer
+- [ ] Improved responsiveness
+- [ ] See the popularity of your top tracks and artists in a chart
+- [ ] Implement a database to store user data
+- [ ] Get Spotify's extension request approved
+- [ ] Deploy the application
+- [ ] Export your top tracks and artists to a playlist
+- [ ] Send your top tracks and artists to your email every month
