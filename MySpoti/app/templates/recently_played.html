@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+| Top Tracks</title>
+<link rel="stylesheet" href="{{ url_for("static", filename="styles/top_tracks.css") }}">
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-lg-offset-2 text-center">
+                            <h1 data-aos="fade-up" data-aos-duration="1000">Your {{ limit }} Most Recently Played Tracks</h1>
+                        </div>
+                    </div>
+                    <hr class="my-4" data-aos="flip-up" data-aos-duration="2000">
+                    <div class="row px-5">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 text-center py-3" data-aos="flip-left" data-aos-duration="1500">
+                            {% if limit == 50 %}
+                                <a href="{{ url_for('recently_played', limit=12) }}" class="btn btn-primary mx-1"><strong>12</strong></a>
+                                <a href="{{ url_for('recently_played', limit=24) }}" class="btn btn-primary mx-1"><strong>24</strong></a>
+                            {% elif limit == 24 %}
+                                <a href="{{ url_for('recently_played', limit=12) }}" class="btn btn-primary mx-1"><strong>12</strong></a>
+                                <a href="{{ url_for('recently_played', limit=50) }}" class="btn btn-primary mx-1"><strong>50</strong></a>
+                            {% else %}
+                                <a href="{{ url_for('recently_played', limit=24) }}" class="btn btn-primary mx-1"><strong>24</strong></a>
+                                <a href="{{ url_for('recently_played', limit=50) }}" class="btn btn-primary mx-1"><strong>50</strong></a>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-12 text-center py-3" data-aos="flip-right" data-aos-duration="1500">
+                            <button class="btn btn-secondary mx-1" onclick="showAs('cards')"><i class="fas fa-th-large fa-xl"></i> </button>
+                            <button class="btn btn-secondary mx-1" onclick="showAs('table')"><i class="fas fa-table-list fa-xl"></i> </button>
+                        </div>
+                    </div>
+
+                    <div class="row px-4">
+                        {% for index, track in recently_played.items() %}
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-12 py-2 flip_container" id="col-{{ index }}" data-aos="fade-up" data-aos-duration="1000">
+                                <div class="flip py-5" id="flip-{{ index }}">
+                                    <div class="flip_front" id="flip-front-{{ index }}">
+                                        <div class="card rounded-4" id="front-card-{{ index }}">
+                                            <div class="card-body text-center">
+                                                <h1>{{ index+1 }}</h1>
+                                                <img src="{{ track.album_cover }}" alt="album cover" class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flip_back" id="flip-back-{{ index }}">
+                                        <div class="card rounded-4" id="back-card-{{ index }}">
+                                            <div class="card-body d-flex justify-content-center align-items-center">
+                                                <div class="text-center">
+                                                    <h2>{{ track.name }}</h2>
+                                                    <h4>By {{ track.artists }}</h4>
+                                                    <h5>From {{ track.album }}</h5>
+                                                    <h5><a href="{{ track.url }}" target="_blank">Listen on Spotify</a></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="row px-4">
+                        <div class="col-12 py-2">
+                            <div class="table-responsive" id="table" hidden>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Track</th>
+                                            <th scope="col"></th>
+                                            <th scope="col">Artist</th>
+                                            <th scope="col">Album</th>
+                                            <th scope="col">Listen on Spotify</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for index, track in recently_played.items() %}
+                                            <tr class="align-middle" data-aos="fade-up" data-aos-duration="1000">
+                                                <th scope="row">{{ index+1 }}</th>
+                                                <td><img src="{{ track.album_cover }}" alt="album cover" class="img-fluid" style="max-height: 75px; max-width: 75px;"></td>
+                                                <td style="color: var(--bs-primary); font-weight: bold;">{{ track.name }}</td>
+                                                <td>{{ track.artists }}</td>
+                                                <td>{{ track.album }}</td>
+                                                <td><a href="{{ track.url }}" target="_blank">Listen on Spotify</a></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script>
+        $(document).ready(function() {
+            for (let i = 0; i < {{ recently_played|length }}; i++) {
+                $("#back-card-"+i).css("height", $("#front-card-"+i).height()+"px");
+                $("#back-card-"+i).css("width", $("#front-card-"+i).width()+"px");
+                $("#flip-front-"+i).css("height", $("#front-card-"+i).height()+"px");
+                $("#flip-back-"+i).css("height", $("#front-card-"+i).height()+"px");
+                $("#flip-"+i).css("height", $("#front-card-"+i).height()+"px");
+            }
+        });
+
+        $(window).resize(function() {
+            for (let i = 0; i < {{ recently_played|length }}; i++) {
+                $("#back-card-"+i).css("height", $("#front-card-"+i).height()+"px");
+                $("#back-card-"+i).css("width", $("#front-card-"+i).width()+"px");
+                $("#flip-front-"+i).css("height", $("#front-card-"+i).height()+"px");
+                $("#flip-back-"+i).css("height", $("#front-card-"+i).height()+"px");
+                $("#flip-"+i).css("height", $("#front-card-"+i).height()+"px");
+            }
+        });
+
+        function showAs(type) {
+            if (type == "cards") {
+                for (let i = 0; i < {{ recently_played|length }}; i++) {
+                    $("#col-"+i).prop("hidden", false);
+                }
+                $("#table").prop("hidden", true);
+            } else {
+                for (let i = 0; i < {{ recently_played|length }}; i++) {
+                    $("#col-"+i).prop("hidden", true);
+                }
+                $("#table").prop("hidden", false);
+            }
+        }
+    </script>
+{% endblock %}
